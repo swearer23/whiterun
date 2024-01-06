@@ -13,18 +13,18 @@ class SalesPerson:
     if self.is_selling_today() == False:
       return None
     sample_order_qty = get_sample(self.qty_per_order, 0.2)
-    print(f"{self.name} sold {sample_order_qty} of {sku.name}")
+    sample_order_duration = get_sample(self.delivery_duration, 0.5)
     saleOrder = SaleOrder(
       sku,
-      self.qty_per_order,
-      self.delivery_duration
+      sample_order_qty,
+      sample_order_duration,
+      sales_person_name=self.name
     )
     return saleOrder
 
   def is_selling_today(self):
     prob = self.monthly_order_qty / 30
     sample_prob = get_sample(prob, 0.5)
-    print(sample_prob)
     if sample_prob < 0.5:
       return False
     else:

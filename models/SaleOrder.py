@@ -1,18 +1,25 @@
+from enum import Enum
+from models.SKU import SKU
+
+class SaleOrderStatus(Enum):
+    PENDING = 'pending'
+    IN_PROGRESS = 'in_progress'
+    COMPLETED = 'completed'
+    CANCELLED = 'cancelled'
+
 class SaleOrder:
-    def __init__(self, sku, qty, delivery_day):
-        self.id = id
+    def __init__(self, sku: SKU, qty, delivery_day, **kwargs):
         self.sku = sku
         self.qty = qty
         self.delivery_day = delivery_day
+        self.status = SaleOrderStatus.PENDING
+        self.sales_person_name = kwargs['sales_person_name']
 
-    def __str__(self):
-        return f"SaleOrder({self.id}, {self.customer}, {self.items}, {self.total}, {self.date})"
-
-    def __repr__(self):
-        return str(self)
-
-    def __eq__(self, other):
-        return self.id == other.id
-
-    def __hash__(self):
-        return hash(self.id)
+    def __dict__(self):
+        return {
+            'sku': self.sku.name,
+            'qty': self.qty,
+            'delivery_day': self.delivery_day,
+            'status': self.status.value,
+            'sales_person_name': self.sales_person_name
+        }
